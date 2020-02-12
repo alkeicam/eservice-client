@@ -1,6 +1,4 @@
 var RESTClient = require('node-rest-client').Client;
-const crypto = require('crypto');
-
 
 class eServiceIntegrationModule {
     constructor(options) {
