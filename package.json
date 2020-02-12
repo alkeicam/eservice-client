@@ -9,7 +9,7 @@
     "packem": "./node_modules/webpack/bin/webpack.js",
     "refresh-deps": "npm install && npm update",
     "build": "npm install && npm update && npm run coverage  && npm run packem",
-    "remote-publish-patch": "npm install && npm update && npm run coverage  && npm run packem  && npm version patch && git push origin  && git push origin --tags && npm publish"
+    "remote-publish-patch": "npm install && npm update && npm run coverage  && npm run packem && git commit -a -m \"dist build\" && npm version patch && git push origin  && git push origin --tags && npm publish"
   },
   "repository": {
     "type": "git",
