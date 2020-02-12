@@ -14,6 +14,7 @@ class eServiceIntegrationModule {
             currency: 'PLN',
             country: 'PL',
             blikPaymentSolutionId: 2222,
+            googlePayPaymentSolutionId: 502,
             merchantNotificationUrl: ''
         }
         //Object.assign(this.options, options);
@@ -111,6 +112,50 @@ class eServiceIntegrationModule {
             var data = "merchantId={merchantId}&token={token}";
             data = data.replace("{merchantId}", self.options.merchantId)
             .replace("{token}", tokenResponse.token);
+
+            var requestOptions = {                
+            }
+
+            return that._invokeWithPost(that.options.paymentsEndpoint+"?"+data, requestOptions);
+        }).then(paymentsResponse=>{
+            this._handleResponse(paymentsResponse);
+        }).then(paymentsResponse=>{
+            return;
+        })
+    }
+
+    payWithGooglePaySingleItem(amount, googlePayToken, customerEmail, customerExternalId, itemDescription, transactionId) {
+        var that = this;
+        var self = this;
+        // request token
+
+        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&paymentSolutionId={paymentSolutionId}&merchantNotificationUrl={merchantNotificationUrl}&blikCode={blikCode}";
+        data = data.replace("{merchantId}", self.options.merchantId)
+            .replace("{password}", self.options.password)
+            .replace("{now}", new Date().getTime())
+            .replace("{allowOriginUrl}", self.options.allowOriginUrl)
+            .replace("{channel}", self.options.channel)
+            .replace("{amount}", amount)
+            .replace("{currency}", self.options.currency)
+            .replace("{country}", self.options.country)
+            .replace("{paymentSolutionId}", self.options.googlePayPaymentSolutionId )
+            .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl);
+            
+
+        
+        var requestOptions = {            
+        }
+
+        return that._invokeWithPost(that.options.tokenEndpoint+"?"+data, requestOptions)
+        .then(response=>{            
+            return this._handleResponse(response);
+        }).then(tokenResponse=>{
+            // now as we have token we may request payment
+            var data = "merchantId={merchantId}&token={token}&specinCCWalletId={specinCCWalletId}&specinCCWalletToken={specinCCWalletToken}";
+            data = data.replace("{merchantId}", self.options.merchantId)
+            .replace("{token}", tokenResponse.token)
+            .replace("{specinCCWalletId}", self.options.googlePayPaymentSolutionId)
+            .replace("{specinCCWalletToken}", googlePayToken)
 
             var requestOptions = {                
             }

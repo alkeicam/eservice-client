@@ -212,6 +212,71 @@ describe('eService integration module', () => {
             })
         })
     })
+
+    describe('payWithGooglePaySingleItem', () => {
+        let AMOUNT = 10;
+        let GOOGLE_PAY_TOKEN = { 
+            "signature": "MEUCIQDUnxiEWgp953lWGdRrXjDuP+mwUkB+uVkhyVL1/d9yXAIgUQbmPQzxuBDOdz72by6vwwFD+LHett6nY0HLjRionjA\u003d", 
+            "protocolVersion": "ECv1", 
+            "signedMessage": "{\"encryptedMessage\":\"Bs26e4q/iDNwwpgLRD+CDitVyygjxnwNF4r0CbAitFLcEkDPZ/8gEk7iYrcejXf+OlLnGaBzT/wOfRZoJ5zquteNCv2rFLUpK+7ClBKQ6l30P9NUGs4yAaidgIZXOgcN6pj2T5AiP0frss7eJKPNWTVVuatr2f1mIVyrma5GL4vZjBleggEzIUu1dVCTmCJJTKk63SYDUxDukOd2AIOykQddvLge1q4DHhLYd9NVLYK24TaAgk6un7sNJICPp8xQcPx1BQ56REtftLkVxPmPjyrZmNlpH9uw7voGt/ZRBVTlXlsk+DQf8Yq3A0BQWlC5fqd7FRxB8w7nP9XrophnWN6/b9jcF6RC6WQ1s3HCGQlVaMEStD6+IzYsm2C3LMztUuIFKy5L7bhQvS1t2LmCLzTU/en34sZ+pSPjRtut63XyTpFsxC1CFEB+YrFidRyJ3Q\\u003d\\u003d\",\"ephemeralPublicKey\":\"BHoCnrEN4eTH23Ds+R1Gq8LQMvJyGjl2iaqBOr0q3PtbGVwmus7JWTZ/SeapdYoeVa7PgqHfsLIL1TjmT92j91M\\u003d\",\"tag\":\"rsx9d9BmXAgWNgDNgHy0/Tt/Awx/J1V65MTwyFyyeQE\\u003d\"}" 
+        };
+        let EMAIL = 'some@email.com';
+        let C_EXT_ID = '#excid';
+        let DESCRIPTION = 'some description';
+        let TRANSACTION_ID = '#tid';
+        let RESPONSE_TOKEN = {
+            "result": "success",
+            "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+            "merchantId": "176689",
+            "additionalDetails": {},
+            "processingTime": 7,
+            "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
+        }
+        let RESPONSE_PAYMENTS = {
+            "result": "success",
+            "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+            "merchantId": "176689",
+            "additionalDetails": {},
+            "processingTime": 7            
+        }
+        beforeEach(() => {            
+            ss = sinon.stub(theModule, '_invokeWithPost')
+            ss.onCall(0).resolves({});
+            ss.onCall(1).resolves({});
+
+            hr = sinon.stub(theModule, '_handleResponse');
+            hr.onCall(0).returns(RESPONSE_TOKEN);
+            hr.onCall(0).returns(RESPONSE_PAYMENTS);
+        });
+        afterEach(() => {
+            ss.restore();
+            hr.restore();
+        });
+
+        it('should resolve on success', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).should.be.fulfilled;            
+        })
+        it('make sure that google token is passed on', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(1);
+                console.log(call.args);
+                return expect(call.args[0]).contains("specinCCWalletToken");
+            })
+        })
+        it('make sure that amount is passed on', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(0);
+                return expect(call.args[0]).contains(AMOUNT);
+            })
+        })
+        it('make sure that proper wallet type is passed', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(1);
+                return expect(call.args[0]).contains('502');
+            })
+        })
+    })
+
     describe('_handleResponse', () => {        
         let RESPONSE = {
             status: {
