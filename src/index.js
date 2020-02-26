@@ -5,8 +5,10 @@ class eServiceIntegrationModule {
     constructor(options) {
         this.options = {
             apiBaseURL: 'https://apiuat.test.secure.eservice.com.pl',
+            formBaseURL: 'https://cashierui-apiuat.test.secure.eservice.com.pl',
             tokenEndpoint: '/token',
             paymentsEndpoint: '/payments',
+            formEndpoint: '',
             merchantId: '',
             password: '',
             allowOriginUrl: '',
@@ -17,7 +19,6 @@ class eServiceIntegrationModule {
             googlePayPaymentSolutionId: 502,
             merchantNotificationUrl: ''
         }
-        //Object.assign(this.options, options);
     }
     configure(options){
         Object.assign(this.options, options);
@@ -165,6 +166,40 @@ class eServiceIntegrationModule {
             this._handleResponse(paymentsResponse);
         }).then(paymentsResponse=>{
             return;
+        })
+    }
+
+    payWithPaymentForm(amount, customerEmail, customerExternalId, itemDescription, transactionId){
+        var that = this;
+        var self = this;
+        // request token
+
+        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&merchantNotificationUrl={merchantNotificationUrl}";
+        data = data.replace("{merchantId}", self.options.merchantId)
+            .replace("{password}", self.options.password)
+            .replace("{now}", new Date().getTime())
+            .replace("{allowOriginUrl}", self.options.allowOriginUrl)
+            .replace("{channel}", self.options.channel)
+            .replace("{amount}", amount)
+            .replace("{currency}", self.options.currency)
+            .replace("{country}", self.options.country)            
+            .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl);            
+        
+        var requestOptions = {            
+        }
+
+        return that._invokeWithPost(that.options.tokenEndpoint+"?"+data, requestOptions)
+        .then(response=>{            
+            return this._handleResponse(response);
+        }).then(tokenResponse=>{
+            // now as we have token we may request payment
+            var data = "merchantId={merchantId}&token={token}&integrationMode=HostedPayPage";
+            data = data.replace("{merchantId}", self.options.merchantId)
+            .replace("{token}", tokenResponse.token);            
+
+            var resultURL = that.options.formBaseURL+that.options.formEndpoint+"?"+data;
+
+            return resultURL;
         })
     }
 }
