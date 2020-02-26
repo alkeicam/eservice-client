@@ -169,7 +169,7 @@ class eServiceIntegrationModule {
         })
     }
 
-    payWithPaymentForm(amount, customerEmail, customerExternalId, itemDescription, transactionId){
+    generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescription, transactionId){
         var that = this;
         var self = this;
         // request token

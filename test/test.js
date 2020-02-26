@@ -371,26 +371,26 @@ describe('eService integration module', () => {
         });
 
         it('should return payment URL on success', () => {
-            return theModule.payWithPaymentForm(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).should.be.fulfilled;            
+            return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).should.be.fulfilled;            
         })
         it('make sure that valid token is used in payment URL', () => {
-            return theModule.payWithPaymentForm(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(paymentURL=>{
+            return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(paymentURL=>{
                 return expect(paymentURL).contains(RESPONSE_TOKEN.token);
             })
         })
         it('make sure that HostedPayPage is used in payment URL', () => {
-            return theModule.payWithPaymentForm(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(paymentURL=>{
+            return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(paymentURL=>{
                 return expect(paymentURL).contains('HostedPayPage');
             })
         })
         it('make sure that paymentSolutionId is not set when requesting token', () => {
-            return theModule.payWithPaymentForm(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(paymentURL=>{
+            return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(paymentURL=>{
                 call = ss.getCall(0);
                 return expect(call.args[0]).not.contains('paymentSolutionId');
             })
         })
         it('make sure that amount is passed on', () => {
-            return theModule.payWithPaymentForm(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+            return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
                 return expect(call.args[0]).contains(AMOUNT);
             })
