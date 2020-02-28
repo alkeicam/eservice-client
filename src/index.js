@@ -87,7 +87,7 @@ class eServiceIntegrationModule {
         var self = this;
         // request token
 
-        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&paymentSolutionId={paymentSolutionId}&merchantNotificationUrl={merchantNotificationUrl}&blikCode={blikCode}";
+        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&paymentSolutionId={paymentSolutionId}&merchantNotificationUrl={merchantNotificationUrl}&blikCode={blikCode}&merchantTxId={merchantTxId}";
         data = data.replace("{merchantId}", self.options.merchantId)
             .replace("{password}", self.options.password)
             .replace("{now}", new Date().getTime())
@@ -98,6 +98,7 @@ class eServiceIntegrationModule {
             .replace("{country}", self.options.country)
             .replace("{paymentSolutionId}", self.options.blikPaymentSolutionId )
             .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl)
+            .replace("{merchantTxId}", transactionId)            
             .replace("{blikCode}", customerBLIKCode);
             
 
@@ -130,7 +131,7 @@ class eServiceIntegrationModule {
         var self = this;
         // request token
 
-        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&paymentSolutionId={paymentSolutionId}&merchantNotificationUrl={merchantNotificationUrl}&blikCode={blikCode}";
+        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&paymentSolutionId={paymentSolutionId}&merchantNotificationUrl={merchantNotificationUrl}&merchantTxId={merchantTxId}";
         data = data.replace("{merchantId}", self.options.merchantId)
             .replace("{password}", self.options.password)
             .replace("{now}", new Date().getTime())
@@ -140,6 +141,7 @@ class eServiceIntegrationModule {
             .replace("{currency}", self.options.currency)
             .replace("{country}", self.options.country)
             .replace("{paymentSolutionId}", self.options.googlePayPaymentSolutionId )
+            .replace("{merchantTxId}", transactionId)      
             .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl);
             
 
@@ -156,7 +158,7 @@ class eServiceIntegrationModule {
             data = data.replace("{merchantId}", self.options.merchantId)
             .replace("{token}", tokenResponse.token)
             .replace("{specinCCWalletId}", self.options.googlePayPaymentSolutionId)
-            .replace("{specinCCWalletToken}", googlePayToken)
+            .replace("{specinCCWalletToken}", JSON.stringify(googlePayToken))
 
             var requestOptions = {                
             }
@@ -174,7 +176,7 @@ class eServiceIntegrationModule {
         var self = this;
         // request token
 
-        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&merchantNotificationUrl={merchantNotificationUrl}";
+        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&merchantNotificationUrl={merchantNotificationUrl}&merchantTxId={merchantTxId}";
         data = data.replace("{merchantId}", self.options.merchantId)
             .replace("{password}", self.options.password)
             .replace("{now}", new Date().getTime())
@@ -182,7 +184,8 @@ class eServiceIntegrationModule {
             .replace("{channel}", self.options.channel)
             .replace("{amount}", amount)
             .replace("{currency}", self.options.currency)
-            .replace("{country}", self.options.country)            
+            .replace("{country}", self.options.country)     
+            .replace("{merchantTxId}", transactionId)                        
             .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl);            
         
         var requestOptions = {            
