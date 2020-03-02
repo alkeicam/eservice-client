@@ -103,10 +103,11 @@ class eServiceIntegrationModule {
             
 
         
-        var requestOptions = {            
+        var requestOptions = {   
+            data: data         
         }
 
-        return that._invokeWithPost(that.options.tokenEndpoint+"?"+data, requestOptions)
+        return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
         .then(response=>{            
             return this._handleResponse(response);
         }).then(tokenResponse=>{
@@ -116,12 +117,13 @@ class eServiceIntegrationModule {
             .replace("{token}", tokenResponse.token);
 
             var requestOptions = {                
+                data: data
             }
 
-            return that._invokeWithPost(that.options.paymentsEndpoint+"?"+data, requestOptions);
+            return that._invokeWithPost(that.options.paymentsEndpoint, requestOptions);
         }).then(paymentsResponse=>{
             this._handleResponse(paymentsResponse);
-        }).then(paymentsResponse=>{
+        }).then(()=>{
             return;
         })
     }
@@ -146,10 +148,11 @@ class eServiceIntegrationModule {
             
 
         
-        var requestOptions = {            
+        var requestOptions = {        
+            data: data    
         }
 
-        return that._invokeWithPost(that.options.tokenEndpoint+"?"+data, requestOptions)
+        return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
         .then(response=>{            
             return this._handleResponse(response);
         }).then(tokenResponse=>{
@@ -160,13 +163,14 @@ class eServiceIntegrationModule {
             .replace("{specinCCWalletId}", self.options.googlePayPaymentSolutionId)
             .replace("{specinCCWalletToken}", JSON.stringify(googlePayToken))
 
-            var requestOptions = {                
+            var requestOptions = {   
+                data: data             
             }
 
-            return that._invokeWithPost(that.options.paymentsEndpoint+"?"+data, requestOptions);
+            return that._invokeWithPost(that.options.paymentsEndpoint, requestOptions);
         }).then(paymentsResponse=>{
             this._handleResponse(paymentsResponse);
-        }).then(paymentsResponse=>{
+        }).then(()=>{
             return;
         })
     }
@@ -188,10 +192,11 @@ class eServiceIntegrationModule {
             .replace("{merchantTxId}", transactionId)                        
             .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl);            
         
-        var requestOptions = {            
+        var requestOptions = {       
+            data: data     
         }
 
-        return that._invokeWithPost(that.options.tokenEndpoint+"?"+data, requestOptions)
+        return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
         .then(response=>{            
             return this._handleResponse(response);
         }).then(tokenResponse=>{

@@ -206,50 +206,50 @@ describe('eService integration module', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
                 console.log(call.args);
-                return expect(call.args[0]).contains(BLIK_CODE);
+                return expect(call.args[1].data).contains(BLIK_CODE);
             })
         })
         it('make sure that amount is passed on', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(AMOUNT);
+                return expect(call.args[1].data).contains(AMOUNT);
             })
         })
         it('make sure that transaction is passed on', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(TRANSACTION_ID);
+                return expect(call.args[1].data).contains(TRANSACTION_ID);
             })
         })
         it('make sure that transaction is passed on', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains("merchantTxId");
+                return expect(call.args[1].data).contains("merchantTxId");
             })
         })
         it('make sure that token is passed on', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
-                return expect(call.args[0]).contains("token");
+                return expect(call.args[1].data).contains("token");
             })
         })
         it('make sure that token is passed on', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
-                return expect(call.args[0]).contains(RESPONSE_TOKEN.token);
+                return expect(call.args[1].data).contains(RESPONSE_TOKEN.token);
             })
         })
         it('make sure that merchant id is passed on', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
-                return expect(call.args[0]).contains("merchantId");
+                return expect(call.args[1].data).contains("merchantId");
             })
         })
         it('make sure that merchant id is passed on', () => {
             return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
                 console.log(theModule.options.merchantId)
-                return expect(call.args[0]).contains(OPTIONS.merchantId);
+                return expect(call.args[1].data).contains(OPTIONS.merchantId);
             })
         })
     })
@@ -305,55 +305,55 @@ describe('eService integration module', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
                 
-                return expect(call.args[0]).contains("specinCCWalletToken");
+                return expect(call.args[1].data).contains("specinCCWalletToken");
             })
         })
         it('make sure that google token value is passed on', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);                
-                return expect(call.args[0]).contains(GOOGLE_PAY_TOKEN.protocolVersion);
+                return expect(call.args[1].data).contains(GOOGLE_PAY_TOKEN.protocolVersion);
             })
         })
         it('make sure that google token value is passed on (2)', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);                
-                return expect(call.args[0]).contains("token");
+                return expect(call.args[1].data).contains("token");
             })
         })
         it('make sure that merchantId is passed on', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains("merchantId");
+                return expect(call.args[1].data).contains("merchantId");
             })
         })
         it('make sure that merchantId is passed on', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(OPTIONS.merchantId);
+                return expect(call.args[1].data).contains(OPTIONS.merchantId);
             })
         })
         it('make sure that amount is passed on', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(AMOUNT);
+                return expect(call.args[1].data).contains(AMOUNT);
             })
         })
         it('make sure that transaction is passed', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(TRANSACTION_ID);
+                return expect(call.args[1].data).contains(TRANSACTION_ID);
             })
         })
         it('make sure that transaction is passed (2)', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains("merchantTxId");
+                return expect(call.args[1].data).contains("merchantTxId");
             })
         })
         it('make sure that proper wallet type is passed', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
-                return expect(call.args[0]).contains('502');
+                return expect(call.args[1].data).contains('502');
             })
         })        
     })
@@ -423,11 +423,7 @@ describe('eService integration module', () => {
 
     describe('payWithPaymentForm', () => {
         let AMOUNT = 10;
-        let GOOGLE_PAY_TOKEN = { 
-            "signature": "MEUCIQDUnxiEWgp953lWGdRrXjDuP+mwUkB+uVkhyVL1/d9yXAIgUQbmPQzxuBDOdz72by6vwwFD+LHett6nY0HLjRionjA\u003d", 
-            "protocolVersion": "ECv1", 
-            "signedMessage": "{\"encryptedMessage\":\"Bs26e4q/iDNwwpgLRD+CDitVyygjxnwNF4r0CbAitFLcEkDPZ/8gEk7iYrcejXf+OlLnGaBzT/wOfRZoJ5zquteNCv2rFLUpK+7ClBKQ6l30P9NUGs4yAaidgIZXOgcN6pj2T5AiP0frss7eJKPNWTVVuatr2f1mIVyrma5GL4vZjBleggEzIUu1dVCTmCJJTKk63SYDUxDukOd2AIOykQddvLge1q4DHhLYd9NVLYK24TaAgk6un7sNJICPp8xQcPx1BQ56REtftLkVxPmPjyrZmNlpH9uw7voGt/ZRBVTlXlsk+DQf8Yq3A0BQWlC5fqd7FRxB8w7nP9XrophnWN6/b9jcF6RC6WQ1s3HCGQlVaMEStD6+IzYsm2C3LMztUuIFKy5L7bhQvS1t2LmCLzTU/en34sZ+pSPjRtut63XyTpFsxC1CFEB+YrFidRyJ3Q\\u003d\\u003d\",\"ephemeralPublicKey\":\"BHoCnrEN4eTH23Ds+R1Gq8LQMvJyGjl2iaqBOr0q3PtbGVwmus7JWTZ/SeapdYoeVa7PgqHfsLIL1TjmT92j91M\\u003d\",\"tag\":\"rsx9d9BmXAgWNgDNgHy0/Tt/Awx/J1V65MTwyFyyeQE\\u003d\"}" 
-        };
+        
         let EMAIL = 'some@email.com';
         let C_EXT_ID = '#excid';
         let DESCRIPTION = 'some description';
@@ -471,37 +467,37 @@ describe('eService integration module', () => {
         it('make sure that paymentSolutionId is not set when requesting token', () => {
             return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(paymentURL=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).not.contains('paymentSolutionId');
+                return expect(call.args[1].data).not.contains('paymentSolutionId');
             })
         })
         it('make sure that amount is passed on', () => {
             return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(AMOUNT);
+                return expect(call.args[1].data).contains(AMOUNT);
             })
         })
         it('make sure that merchantId is passed on', () => {
             return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains("merchantId");
+                return expect(call.args[1].data).contains("merchantId");
             })
         })
         it('make sure that merchantId is passed on (2)', () => {
             return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(OPTIONS.merchantId);
+                return expect(call.args[1].data).contains(OPTIONS.merchantId);
             })
         })
         it('make sure that transaction is passed on', () => {
             return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains(TRANSACTION_ID);
+                return expect(call.args[1].data).contains(TRANSACTION_ID);
             })
         })
         it('make sure that transaction is passed on (2)', () => {
             return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(0);
-                return expect(call.args[0]).contains("merchantTxId");
+                return expect(call.args[1].data).contains("merchantTxId");
             })
         })
         
