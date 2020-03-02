@@ -182,7 +182,7 @@ class eServiceIntegrationModule {
                 merchantId: self.options.merchantId,
                 token: tokenResponse.token,
                 specinCCWalletId: self.options.googlePayPaymentSolutionId,
-                specinCCWalletToken: JSON.stringify(googlePayToken)
+                specinCCWalletToken: googlePayToken
             }            
 
             var requestOptions = {   
@@ -216,7 +216,7 @@ class eServiceIntegrationModule {
             merchantNotificationUrl: self.options.merchantNotificationUrl,
             merchantTxId: transactionId
         }
-                                
+
         var requestOptions = {       
             data: data,
             headers: { "Content-Type": "application/x-www-form-urlencoded" }              

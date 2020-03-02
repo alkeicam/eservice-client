@@ -396,7 +396,7 @@ describe('eService integration module', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
                 
-                return expect(call.args[1].data.specinCCWalletToken).equal(JSON.stringify(GOOGLE_PAY_TOKEN));
+                return expect(call.args[1].data.specinCCWalletToken).equal(GOOGLE_PAY_TOKEN);
             })
         })        
         it('make sure that eservice token value is passed on', () => {
