@@ -175,11 +175,60 @@ describe('eService integration module', () => {
             "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
         }
         let RESPONSE_PAYMENTS = {
-            "result": "success",
-            "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
-            "merchantId": "176689",
-            "additionalDetails": {},
-            "processingTime": 7            
+            amount: '1500',
+            resultId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+            merchantLandingPageUrl: null,
+            acquirerTxId: null,
+            txId: '11837815',
+            language: null,
+            paymentSolutionDetails: null,
+            additionalDetails: {},
+            acquirerAmount: null,
+            processingTime: 5910,
+            result: 'success',
+            merchantId: '176689',
+            brandId: '1766890000',
+            freeText: null,
+            merchantTxId: '-M1QCzUruoppxOqMn0Ac',
+            customerId: 'N1UKmyXZdApuNEbjcU94',
+            merchantLandingPageRedirectMethod: null,
+            acquirerCurrency: null,
+            action: 'PURCHASE',
+            paymentSolutionId: '2222',
+            currency: 'PLN',
+            pan: 'N/A',
+            errors: null,
+            status: 'SET_FOR_CAPTURE'           
+        }
+        let RESPONSE = {
+            status: { message: 'OK', code: 200 },
+            body: {
+                orderId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+                amount: '1500',
+                resultId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+                merchantLandingPageUrl: null,
+                acquirerTxId: null,
+                txId: '11837815',
+                language: null,
+                paymentSolutionDetails: null,
+                additionalDetails: {},
+                acquirerAmount: null,
+                processingTime: 5910,
+                result: 'success',
+                merchantId: '176689',
+                brandId: '1766890000',
+                freeText: null,
+                merchantTxId: '-M1QCzUruoppxOqMn0Ac',
+                customerId: 'N1UKmyXZdApuNEbjcU94',
+                merchantLandingPageRedirectMethod: null,
+                acquirerCurrency: null,
+                action: 'PURCHASE',
+                paymentSolutionId: '2222',
+                currency: 'PLN',
+                pan: 'N/A',
+                errors: null,
+                status: 'SET_FOR_CAPTURE'                 
+            }
         }
         let OPTIONS = {
             merchantId: '449900'
@@ -193,10 +242,15 @@ describe('eService integration module', () => {
             hr = sinon.stub(theModule, '_handleResponse');
             hr.onCall(0).returns(RESPONSE_TOKEN);
             hr.onCall(1).returns(RESPONSE_PAYMENTS);
+
+            s3 = sinon.stub(theModule, '_generateResponse');
+            s3.onCall(0).returns(RESPONSE);
+            s3.onCall(1).returns(RESPONSE);
         });
         afterEach(() => {
             ss.restore();
             hr.restore();
+            s3.restore();
         });
 
         it('should resolve on success', () => {
@@ -274,11 +328,60 @@ describe('eService integration module', () => {
             "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
         }
         let RESPONSE_PAYMENTS = {
-            "result": "success",
-            "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
-            "merchantId": "176689",
-            "additionalDetails": {},
-            "processingTime": 7            
+            amount: '1500',
+            resultId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+            merchantLandingPageUrl: null,
+            acquirerTxId: null,
+            txId: '11837815',
+            language: null,
+            paymentSolutionDetails: null,
+            additionalDetails: {},
+            acquirerAmount: null,
+            processingTime: 5910,
+            result: 'success',
+            merchantId: '176689',
+            brandId: '1766890000',
+            freeText: null,
+            merchantTxId: '-M1QCzUruoppxOqMn0Ac',
+            customerId: 'N1UKmyXZdApuNEbjcU94',
+            merchantLandingPageRedirectMethod: null,
+            acquirerCurrency: null,
+            action: 'PURCHASE',
+            paymentSolutionId: '2222',
+            currency: 'PLN',
+            pan: 'N/A',
+            errors: null,
+            status: 'SET_FOR_CAPTURE'           
+        }
+        let RESPONSE = {
+            status: { message: 'OK', code: 200 },
+            body: {
+                orderId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+                amount: '1500',
+                resultId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+                merchantLandingPageUrl: null,
+                acquirerTxId: null,
+                txId: '11837815',
+                language: null,
+                paymentSolutionDetails: null,
+                additionalDetails: {},
+                acquirerAmount: null,
+                processingTime: 5910,
+                result: 'success',
+                merchantId: '176689',
+                brandId: '1766890000',
+                freeText: null,
+                merchantTxId: '-M1QCzUruoppxOqMn0Ac',
+                customerId: 'N1UKmyXZdApuNEbjcU94',
+                merchantLandingPageRedirectMethod: null,
+                acquirerCurrency: null,
+                action: 'PURCHASE',
+                paymentSolutionId: '2222',
+                currency: 'PLN',
+                pan: 'N/A',
+                errors: null,
+                status: 'SET_FOR_CAPTURE'                 
+            }
         }
         let OPTIONS = {
             merchantId: '449900'
@@ -292,10 +395,16 @@ describe('eService integration module', () => {
             hr = sinon.stub(theModule, '_handleResponse');
             hr.onCall(0).returns(RESPONSE_TOKEN);
             hr.onCall(1).returns(RESPONSE_PAYMENTS);
+
+            s3 = sinon.stub(theModule, '_generateResponse');
+            s3.onCall(0).returns(RESPONSE);
+            s3.onCall(1).returns(RESPONSE);
         });
         afterEach(() => {
             ss.restore();
             hr.restore();
+
+            s3.restore();
         });
 
         it('should resolve on success', () => {
@@ -356,69 +465,6 @@ describe('eService integration module', () => {
                 return expect(call.args[1].data).contains('502');
             })
         })        
-    })
-
-    describe('_handleResponse', () => {        
-        let RESPONSE = {
-            status: {
-                code: 200,
-                message: 'OK'
-            },
-            body: {
-                "result": "success",
-                "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
-                "merchantId": "176689",
-                "additionalDetails": {},
-                "processingTime": 7,
-                "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
-            }
-        }
-        let RESPONSE_HTTP_ERROR = {
-            status: {
-                code: 404,
-                message: 'NOT FOUND'
-            },
-            body: {                
-            }
-        }
-        let RESPONSE_LOGIC_ERROR = {
-            status: {
-                code: 200,
-                message: 'OK'
-            },
-            body: {
-                "result": "failure",
-                "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
-                "merchantId": "176689",
-                "additionalDetails": {},
-                "processingTime": 7,
-                "errors" : [
-                    {
-                        "messageCode": "error.access.denied.176689",
-                        "fieldName": "89.71.13.62"
-                    }
-                ]
-            }
-        }
-        
-        beforeEach(() => {            
-
-        });
-        afterEach(() => {
-
-        });
-
-        it('should return on success', () => {
-            var response = theModule._handleResponse(RESPONSE);
-            return expect(response.result).equal('success');
-        })
-        it('should throw error on http exception', () => {            
-            return expect(theModule._handleResponse.bind(theModule, RESPONSE_HTTP_ERROR)).to.throw();
-        })
-        it('should throw error on logic exception', () => {            
-            return expect(theModule._handleResponse.bind(theModule, RESPONSE_LOGIC_ERROR)).to.throw();
-        })
-        
     })
 
     describe('payWithPaymentForm', () => {
@@ -503,5 +549,167 @@ describe('eService integration module', () => {
         
     })
 
+    describe('_handleResponse', () => {        
+        let RESPONSE = {
+            status: {
+                code: 200,
+                message: 'OK'
+            },
+            body: {
+                "result": "success",
+                "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+                "merchantId": "176689",
+                "additionalDetails": {},
+                "processingTime": 7,
+                "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
+            }
+        }
+        let RESPONSE_HTTP_ERROR = {
+            status: {
+                code: 404,
+                message: 'NOT FOUND'
+            },
+            body: {                
+            }
+        }
+        let RESPONSE_LOGIC_ERROR = {
+            status: {
+                code: 200,
+                message: 'OK'
+            },
+            body: {
+                "result": "failure",
+                "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+                "merchantId": "176689",
+                "additionalDetails": {},
+                "processingTime": 7,
+                "errors" : [
+                    {
+                        "messageCode": "error.access.denied.176689",
+                        "fieldName": "89.71.13.62"
+                    }
+                ]
+            }
+        }
+        
+        beforeEach(() => {            
+
+        });
+        afterEach(() => {
+
+        });
+
+        it('should return on success', () => {
+            var response = theModule._handleResponse(RESPONSE);
+            return expect(response.result).equal('success');
+        })
+        it('should throw error on http exception', () => {            
+            return expect(theModule._handleResponse.bind(theModule, RESPONSE_HTTP_ERROR)).to.throw();
+        })
+        it('should throw error on logic exception', () => {            
+            return expect(theModule._handleResponse.bind(theModule, RESPONSE_LOGIC_ERROR)).to.throw();
+        })
+        
+    })
+    describe('_generateResponse', () => {                
+        let RESPONSE = {
+            status: {
+                code: 200,
+                message: 'OK'
+            },
+            body: {
+                "result": "success",
+                "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+                "merchantId": "176689",
+                "additionalDetails": {},
+                "processingTime": 7,
+                "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
+            }
+        }
+        let RESPONSE_HTTP_ERROR = {
+            status: {
+                code: 404,
+                message: 'NOT FOUND'
+            },
+            body: {     
+                "result": "failure",
+                "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+                "merchantId": "176689",
+                "additionalDetails": {},
+                "processingTime": 7,
+                "errors" : [
+                    {
+                        "messageCode": "error.access.denied.176689",
+                        "fieldName": "89.71.13.62"
+                    }
+                ]           
+            }
+        }
+        let RESPONSE_LOGIC_ERROR = {
+            status: {
+                code: 200,
+                message: 'OK'
+            },
+            body: {
+                "result": "failure",
+                "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+                "merchantId": "176689",
+                "additionalDetails": {},
+                "processingTime": 7,
+                "errors" : [
+                    {
+                        "messageCode": "error.access.denied.176689",
+                        "fieldName": "89.71.13.62"
+                    }
+                ]
+            }
+        }
+        
+        beforeEach(() => {            
+
+        });
+        afterEach(() => {
+
+        });
+
+        it('always should return status (1)', () => {
+            var response = theModule._generateResponse(RESPONSE);
+            return expect(response.status).equal(RESPONSE.status);
+        })
+        it('always should return status (2)', () => {
+            var response = theModule._generateResponse(RESPONSE_HTTP_ERROR);
+            return expect(response.status).equal(RESPONSE_HTTP_ERROR.status);
+        })
+        it('always should return status (3)', () => {
+            var response = theModule._generateResponse(RESPONSE_LOGIC_ERROR);
+            return expect(response.status).equal(RESPONSE_LOGIC_ERROR.status);
+        })
+        it('always should return body (1)', () => {
+            var response = theModule._generateResponse(RESPONSE);
+            return expect(response.body).equal(RESPONSE.body);
+        })
+        it('always should return body (2)', () => {
+            var response = theModule._generateResponse(RESPONSE_HTTP_ERROR);
+            return expect(response.body).equal(RESPONSE_HTTP_ERROR.body);
+        })
+        it('always should return body (3)', () => {
+            var response = theModule._generateResponse(RESPONSE_LOGIC_ERROR);
+            return expect(response.body).equal(RESPONSE_LOGIC_ERROR.body);
+        })
+
+        it('always should return body with order id which is the result id (1)', () => {
+            var response = theModule._generateResponse(RESPONSE);
+            console.log('R', response);
+            return expect(response.body.orderId).equal(RESPONSE.body.resultId);
+        })
+        it('always should return body with order id which is the result id (2)', () => {
+            var response = theModule._generateResponse(RESPONSE_HTTP_ERROR);
+            return expect(response.body.orderId).equal(RESPONSE_HTTP_ERROR.body.resultId);
+        })
+        it('always should return body with order id which is the result id (3)', () => {
+            var response = theModule._generateResponse(RESPONSE_LOGIC_ERROR);
+            return expect(response.body.orderId).equal(RESPONSE_LOGIC_ERROR.body.resultId);
+        })        
+    })
     
 })

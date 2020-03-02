@@ -61,14 +61,18 @@ class eServiceIntegrationModule {
         console.log('Received response', response);
         var status = response.status;
         var responseBody = response.body;
-        // sample token response
+        // Sample response from eService
         // {
-        //     "result": "success",
-        //     "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
-        //     "merchantId": "176689",
-        //     "additionalDetails": {},
-        //     "processingTime": 7,
-        //     "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
+        //     status: { message: 'OK', code: 200 },
+        //     body:
+        //     {
+        //         result: 'success',
+        //             resultId: '602e0ee0-4ef5-4b32-9885-1b2ca92bdb17',
+        //                 merchantId: '176689',
+        //                     additionalDetails: { },
+        //         processingTime: 5,
+        //             token: '2270009c-3218-4881-a279-e02d70c25c74'
+        //     }
         // }
         if (status.code == 200) {            
             if(responseBody.result == 'success'){
@@ -80,6 +84,18 @@ class eServiceIntegrationModule {
         }else{
             throw new Error('Connection error: '+status.code+' '+status.message);
         }   
+    }
+
+    _generateResponse(eServiceResponse){
+        var response = {
+            status: eServiceResponse.status, 
+            body: eServiceResponse.body
+        }
+        // use eservice resultId as external orderId of the transaction
+        console.log(eServiceResponse);
+        response.body.orderId = eServiceResponse.body.resultId
+        console.log(response);
+        return response;
     }
 
     payWithBLIKSingleItem(amount, customerBLIKCode, customerEmail, customerExternalId, itemDescription, transactionId) {
@@ -123,8 +139,9 @@ class eServiceIntegrationModule {
             return that._invokeWithPost(that.options.paymentsEndpoint, requestOptions);
         }).then(paymentsResponse=>{
             this._handleResponse(paymentsResponse);
-        }).then(()=>{
-            return;
+            return paymentsResponse;
+        }).then(paymentsResponse=>{
+            return self._generateResponse(paymentsResponse);
         })
     }
 
@@ -170,8 +187,9 @@ class eServiceIntegrationModule {
             return that._invokeWithPost(that.options.paymentsEndpoint, requestOptions);
         }).then(paymentsResponse=>{
             this._handleResponse(paymentsResponse);
-        }).then(()=>{
-            return;
+            return paymentsResponse;
+        }).then(paymentsResponse=>{
+            return self._generateResponse(paymentsResponse);
         })
     }
 
