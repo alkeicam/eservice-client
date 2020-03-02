@@ -92,9 +92,9 @@ class eServiceIntegrationModule {
             body: eServiceResponse.body
         }
         // use eservice resultId as external orderId of the transaction
-        console.log(eServiceResponse);
+        
         response.body.orderId = eServiceResponse.body.resultId
-        console.log(response);
+        
         return response;
     }
 
@@ -103,24 +103,25 @@ class eServiceIntegrationModule {
         var self = this;
         // request token
 
-        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&paymentSolutionId={paymentSolutionId}&merchantNotificationUrl={merchantNotificationUrl}&blikCode={blikCode}&merchantTxId={merchantTxId}";
-        data = data.replace("{merchantId}", self.options.merchantId)
-            .replace("{password}", self.options.password)
-            .replace("{now}", new Date().getTime())
-            .replace("{allowOriginUrl}", self.options.allowOriginUrl)
-            .replace("{channel}", self.options.channel)
-            .replace("{amount}", amount)
-            .replace("{currency}", self.options.currency)
-            .replace("{country}", self.options.country)
-            .replace("{paymentSolutionId}", self.options.blikPaymentSolutionId )
-            .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl)
-            .replace("{merchantTxId}", transactionId)            
-            .replace("{blikCode}", customerBLIKCode);
-            
-
+        var data = {
+            action: 'PURCHASE',
+            merchantId: self.options.merchantId,
+            password: self.options.password,
+            timestamp: new Date().getTime(),
+            allowOriginUrl: self.options.allowOriginUrl,
+            channel: self.options.channel,
+            amount: amount,
+            currency: self.options.currency,
+            country: self.options.country,
+            paymentSolutionId: self.options.blikPaymentSolutionId,
+            merchantNotificationUrl: self.options.merchantNotificationUrl,
+            merchantTxId: transactionId,
+            blikCode: customerBLIKCode
+        }
         
         var requestOptions = {   
-            data: data         
+            data: data,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }         
         }
 
         return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
@@ -128,12 +129,14 @@ class eServiceIntegrationModule {
             return this._handleResponse(response);
         }).then(tokenResponse=>{
             // now as we have token we may request payment
-            var data = "merchantId={merchantId}&token={token}";
-            data = data.replace("{merchantId}", self.options.merchantId)
-            .replace("{token}", tokenResponse.token);
+            data = {
+                merchantId: self.options.merchantId,
+                token: tokenResponse.token
+            }
 
             var requestOptions = {                
-                data: data
+                data: data,
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }         
             }
 
             return that._invokeWithPost(that.options.paymentsEndpoint, requestOptions);
@@ -150,23 +153,24 @@ class eServiceIntegrationModule {
         var self = this;
         // request token
 
-        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&paymentSolutionId={paymentSolutionId}&merchantNotificationUrl={merchantNotificationUrl}&merchantTxId={merchantTxId}";
-        data = data.replace("{merchantId}", self.options.merchantId)
-            .replace("{password}", self.options.password)
-            .replace("{now}", new Date().getTime())
-            .replace("{allowOriginUrl}", self.options.allowOriginUrl)
-            .replace("{channel}", self.options.channel)
-            .replace("{amount}", amount)
-            .replace("{currency}", self.options.currency)
-            .replace("{country}", self.options.country)
-            .replace("{paymentSolutionId}", self.options.googlePayPaymentSolutionId )
-            .replace("{merchantTxId}", transactionId)      
-            .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl);
-            
+        var data = {
+            action: 'PURCHASE',
+            merchantId: self.options.merchantId,
+            password: self.options.password,
+            timestamp: new Date().getTime(),
+            allowOriginUrl: self.options.allowOriginUrl,
+            channel: self.options.channel,
+            amount: amount,
+            currency: self.options.currency,
+            country: self.options.country,
+            paymentSolutionId: self.options.googlePayPaymentSolutionId,
+            merchantNotificationUrl: self.options.merchantNotificationUrl,
+            merchantTxId: transactionId
+        }
 
-        
         var requestOptions = {        
-            data: data    
+            data: data,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }             
         }
 
         return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
@@ -174,16 +178,17 @@ class eServiceIntegrationModule {
             return this._handleResponse(response);
         }).then(tokenResponse=>{
             // now as we have token we may request payment
-            var data = "merchantId={merchantId}&token={token}&specinCCWalletId={specinCCWalletId}&specinCCWalletToken={specinCCWalletToken}";
-            data = data.replace("{merchantId}", self.options.merchantId)
-            .replace("{token}", tokenResponse.token)
-            .replace("{specinCCWalletId}", self.options.googlePayPaymentSolutionId)
-            .replace("{specinCCWalletToken}", JSON.stringify(googlePayToken))
+            var data = {
+                merchantId: self.options.merchantId,
+                token: tokenResponse.token,
+                specinCCWalletId: self.options.googlePayPaymentSolutionId,
+                specinCCWalletToken: JSON.stringify(googlePayToken)
+            }            
 
             var requestOptions = {   
-                data: data             
+                data: data,
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }                      
             }
-
             return that._invokeWithPost(that.options.paymentsEndpoint, requestOptions);
         }).then(paymentsResponse=>{
             this._handleResponse(paymentsResponse);
@@ -198,20 +203,23 @@ class eServiceIntegrationModule {
         var self = this;
         // request token
 
-        var data = "action=PURCHASE&merchantId={merchantId}&password={password}&timestamp={now}&allowOriginUrl={allowOriginUrl}&channel={channel}&amount={amount}&currency={currency}&country={country}&merchantNotificationUrl={merchantNotificationUrl}&merchantTxId={merchantTxId}";
-        data = data.replace("{merchantId}", self.options.merchantId)
-            .replace("{password}", self.options.password)
-            .replace("{now}", new Date().getTime())
-            .replace("{allowOriginUrl}", self.options.allowOriginUrl)
-            .replace("{channel}", self.options.channel)
-            .replace("{amount}", amount)
-            .replace("{currency}", self.options.currency)
-            .replace("{country}", self.options.country)     
-            .replace("{merchantTxId}", transactionId)                        
-            .replace("{merchantNotificationUrl}", self.options.merchantNotificationUrl);            
-        
+        var data = {
+            action: 'PURCHASE',
+            merchantId: self.options.merchantId,
+            password: self.options.password,
+            timestamp: new Date().getTime(),
+            allowOriginUrl: self.options.allowOriginUrl,
+            channel: self.options.channel,
+            amount: amount,
+            currency: self.options.currency,
+            country: self.options.country,            
+            merchantNotificationUrl: self.options.merchantNotificationUrl,
+            merchantTxId: transactionId
+        }
+                                
         var requestOptions = {       
-            data: data     
+            data: data,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }              
         }
 
         return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
