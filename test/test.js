@@ -392,11 +392,11 @@ describe('eService integration module', () => {
         it('should resolve on success', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).should.be.fulfilled;            
         })
-        it('make sure that google token is passed on', () => {
+        it('make sure that google token is passed on and is encoded', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
                 
-                return expect(call.args[1].data.specinCCWalletToken).equal(GOOGLE_PAY_TOKEN);
+                return expect(call.args[1].data.specinCCWalletToken).equal(encodeURIComponent(GOOGLE_PAY_TOKEN));
             })
         })        
         it('make sure that eservice token value is passed on', () => {
