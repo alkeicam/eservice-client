@@ -182,7 +182,7 @@ class eServiceIntegrationModule {
                 merchantId: self.options.merchantId,
                 token: tokenResponse.token,
                 specinCCWalletId: self.options.googlePayPaymentSolutionId,
-                specinCCWalletToken: googlePayToken
+                specinCCWalletToken: encodeURIComponent(googlePayToken)
             }            
 
             var requestOptions = {   
