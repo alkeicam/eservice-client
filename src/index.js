@@ -88,7 +88,7 @@ class eServiceIntegrationModule {
         return response;
     }
 
-    payWithBLIKSingleItem(amount, customerBLIKCode, customerEmail, customerExternalId, itemDescription, transactionId) {
+    payWithBLIKSingleItem(amount, customerBLIKCode, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL) {
         var that = this;
         var self = this;
         // request token
@@ -108,12 +108,15 @@ class eServiceIntegrationModule {
             merchantTxId: transactionId,
             blikCode: customerBLIKCode
         }
+        if(landingPageURL){
+            data['merchantLandingPageUrl'] = landingPageURL;
+        }
         
         var requestOptions = {   
             data: data,
             headers: { "Content-Type": "application/x-www-form-urlencoded" }         
         }
-
+        console.log(requestOptions);
         return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
         .then(response=>{            
             return this._handleResponse(response);
@@ -145,9 +148,9 @@ class eServiceIntegrationModule {
      * @param {*} customerExternalId 
      * @param {*} itemDescription 
      * @param {*} transactionId 
-     * @param {*} gpaytokencheat 
+     * @param {*} landingPageURL 
      */
-    payWithGooglePaySingleItem(amount, googlePayToken, customerEmail, customerExternalId, itemDescription, transactionId, gpaytokencheat) {
+    payWithGooglePaySingleItem(amount, googlePayToken, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL) {
         var that = this;
         var self = this;
         // request token
@@ -165,6 +168,10 @@ class eServiceIntegrationModule {
             paymentSolutionId: self.options.googlePayPaymentSolutionId,
             merchantNotificationUrl: self.options.merchantNotificationUrl,
             merchantTxId: transactionId
+        }
+
+        if(landingPageURL){
+            data['merchantLandingPageUrl'] = landingPageURL;
         }
 
         var requestOptions = {        
@@ -197,7 +204,7 @@ class eServiceIntegrationModule {
         })
     }
 
-    generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescription, transactionId){
+    generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL){
         var that = this;
         var self = this;
         // request token
@@ -214,6 +221,9 @@ class eServiceIntegrationModule {
             country: self.options.country,            
             merchantNotificationUrl: self.options.merchantNotificationUrl,
             merchantTxId: transactionId
+        }
+        if(landingPageURL){
+            data['merchantLandingPageUrl'] = landingPageURL;
         }
 
         var requestOptions = {       

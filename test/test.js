@@ -167,6 +167,7 @@ describe('eService integration module', () => {
         let C_EXT_ID = '#excid';
         let DESCRIPTION = 'some description';
         let TRANSACTION_ID = '#tid';
+        let LANDING_PAGE_URL = 'https://some.landing.page?with=params';
         let RESPONSE_TOKEN = {
             "result": "success",
             "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
@@ -289,6 +290,13 @@ describe('eService integration module', () => {
                 return expect(call.args[1].data.merchantId).equal(OPTIONS.merchantId);
             })
         })
+        it('make sure that landingPageURL is used when provided', () => {
+            return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL).then(()=>{
+                call = ss.getCall(0);
+                
+                return expect(call.args[1].data.merchantLandingPageUrl).equal(LANDING_PAGE_URL);
+            })
+        })
     })
 
     describe('payWithGooglePaySingleItem', () => {
@@ -302,6 +310,7 @@ describe('eService integration module', () => {
         let C_EXT_ID = '#excid';
         let DESCRIPTION = 'some description';
         let TRANSACTION_ID = '#tid';
+        let LANDING_PAGE_URL = 'https://some.landing.page?with=params';
         let RESPONSE_TOKEN = {
             "result": "success",
             "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
@@ -430,7 +439,14 @@ describe('eService integration module', () => {
                 call = ss.getCall(1);
                 return expect(call.args[1].data.specinCCWalletId).equal(502);
             })
-        })        
+        })    
+        it('make sure that landingPageURL is used when provided', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL).then(()=>{
+                call = ss.getCall(0);
+                
+                return expect(call.args[1].data.merchantLandingPageUrl).equal(LANDING_PAGE_URL);
+            })
+        })    
     })
 
     describe('payWithPaymentForm', () => {
@@ -440,6 +456,7 @@ describe('eService integration module', () => {
         let C_EXT_ID = '#excid';
         let DESCRIPTION = 'some description';
         let TRANSACTION_ID = '#tid';
+        let LANDING_PAGE_URL = 'https://some.landing.page?with=params';
         let RESPONSE_TOKEN = {
             "result": "success",
             "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
@@ -500,7 +517,13 @@ describe('eService integration module', () => {
                 call = ss.getCall(0);
                 return expect(call.args[1].data.merchantTxId).equal(TRANSACTION_ID);
             })
-        })        
+        })   
+        it('make sure that transaction is passed on', () => {
+            return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL).then(()=>{
+                call = ss.getCall(0);
+                return expect(call.args[1].data.merchantLandingPageUrl).equal(LANDING_PAGE_URL);
+            })
+        })       
     })
 
     describe('_handleResponse', () => {        
