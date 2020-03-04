@@ -44,6 +44,10 @@ const eServiceModule = require('eservice-pl');
 // these is the minimal set of configuration options, you MUST provide your merchant data agreed with eService
 // and application details
 const ESERVICE_OPTIONS = {
+    // for production usage change URLs below to your production eservice endpoint - by default
+    // test environment is used
+    //apiBaseURL: 'https://apiuat.test.secure.eservice.com.pl',
+    //formBaseURL: 'https://cashierui-apiuat.test.secure.eservice.com.pl',
     merchantId: '--your merchant id--',
     password: '--your password--',
     currency: 'PLN', //iso currency code
