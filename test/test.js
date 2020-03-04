@@ -113,6 +113,7 @@ describe('eService integration module', () => {
 
 
     })
+    
     describe('_invokeWithPost With Error', () => {
         let RESPONSE = {
             responseBody: {
@@ -517,6 +518,26 @@ describe('eService integration module', () => {
                 "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
             }
         }
+        let RESPONSE_3DS_REDIRECT = {
+            status: {
+                code: 200,
+                message: 'OK'
+            },
+            body: {
+                result: 'redirection',
+                resultId: 'f06196f5-b4f6-4537-b9d5-9d48a99f1349',
+                merchantId: '176611',
+                merchantTxId: '-M1_LCro_m8xdi9skLnn',
+                merchantLandingPageRedirectMethod: null,
+                txId: '11838909',
+                redirectTarget: null,
+                additionalDetails: {},
+                redirectionUrl: 'https://nvpreceptor-apiuat.test.secure.eservice.com.pl/public/IPGRedirector?ipgSessionId=0a33a487-e79c-44a5-9d6e-abeb41f69947',
+                errors: null,
+                processingTime: 2040,
+                status: 'INCOMPLETE'
+            }
+        }
         let RESPONSE_HTTP_ERROR = {
             status: {
                 code: 404,
@@ -561,6 +582,10 @@ describe('eService integration module', () => {
         })
         it('should throw error on logic exception', () => {            
             return expect(theModule._handleResponse.bind(theModule, RESPONSE_LOGIC_ERROR)).to.throw();
+        })
+        it('should return redirect url on redirection response', () => {            
+            var response = theModule._handleResponse(RESPONSE_3DS_REDIRECT);
+            return expect(response.redirectionUrl).equal(RESPONSE_3DS_REDIRECT.body.redirectionUrl);
         })
         
     })
