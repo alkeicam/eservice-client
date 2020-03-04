@@ -292,11 +292,11 @@ describe('eService integration module', () => {
 
     describe('payWithGooglePaySingleItem', () => {
         let AMOUNT = 10;
-        let GOOGLE_PAY_TOKEN = { 
+        let GOOGLE_PAY_TOKEN = JSON.stringify({ 
             "signature": "MEUCIQDUnxiEWgp953lWGdRrXjDuP+mwUkB+uVkhyVL1/d9yXAIgUQbmPQzxuBDOdz72by6vwwFD+LHett6nY0HLjRionjA\u003d", 
             "protocolVersion": "ECv1", 
             "signedMessage": "{\"encryptedMessage\":\"Bs26e4q/iDNwwpgLRD+CDitVyygjxnwNF4r0CbAitFLcEkDPZ/8gEk7iYrcejXf+OlLnGaBzT/wOfRZoJ5zquteNCv2rFLUpK+7ClBKQ6l30P9NUGs4yAaidgIZXOgcN6pj2T5AiP0frss7eJKPNWTVVuatr2f1mIVyrma5GL4vZjBleggEzIUu1dVCTmCJJTKk63SYDUxDukOd2AIOykQddvLge1q4DHhLYd9NVLYK24TaAgk6un7sNJICPp8xQcPx1BQ56REtftLkVxPmPjyrZmNlpH9uw7voGt/ZRBVTlXlsk+DQf8Yq3A0BQWlC5fqd7FRxB8w7nP9XrophnWN6/b9jcF6RC6WQ1s3HCGQlVaMEStD6+IzYsm2C3LMztUuIFKy5L7bhQvS1t2LmCLzTU/en34sZ+pSPjRtut63XyTpFsxC1CFEB+YrFidRyJ3Q\\u003d\\u003d\",\"ephemeralPublicKey\":\"BHoCnrEN4eTH23Ds+R1Gq8LQMvJyGjl2iaqBOr0q3PtbGVwmus7JWTZ/SeapdYoeVa7PgqHfsLIL1TjmT92j91M\\u003d\",\"tag\":\"rsx9d9BmXAgWNgDNgHy0/Tt/Awx/J1V65MTwyFyyeQE\\u003d\"}" 
-        };
+        });
         let EMAIL = 'some@email.com';
         let C_EXT_ID = '#excid';
         let DESCRIPTION = 'some description';
@@ -396,7 +396,7 @@ describe('eService integration module', () => {
             return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
                 
-                return expect(call.args[1].data.specinCCWalletToken).equal(encodeURIComponent(GOOGLE_PAY_TOKEN));
+                return expect(call.args[1].data.specinCCWalletToken).equal(GOOGLE_PAY_TOKEN);
             })
         })        
         it('make sure that eservice token value is passed on', () => {

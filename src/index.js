@@ -48,7 +48,7 @@ class eServiceIntegrationModule {
             console.info("Going to request with POST.", url, options);
     
             restClient.post(url, options, function (responseBody, response) {
-                var status = self._retrieveResponseStatus(response);                
+                var status = self._retrieveResponseStatus(response);                                
                 resolve({status: status, body: responseBody});
             }).on('error', function (err) {
                 console.error("Error while requesting");
@@ -147,8 +147,17 @@ class eServiceIntegrationModule {
             return self._generateResponse(paymentsResponse);
         })
     }
-
-    payWithGooglePaySingleItem(amount, googlePayToken, customerEmail, customerExternalId, itemDescription, transactionId) {
+    /**
+     * 
+     * @param {*} amount 
+     * @param {*} googlePayToken Google Pay token String retrieved from Google payment data paymentData['paymentMethodData']['tokenizationData']['token']
+     * @param {*} customerEmail 
+     * @param {*} customerExternalId 
+     * @param {*} itemDescription 
+     * @param {*} transactionId 
+     * @param {*} gpaytokencheat 
+     */
+    payWithGooglePaySingleItem(amount, googlePayToken, customerEmail, customerExternalId, itemDescription, transactionId, gpaytokencheat) {
         var that = this;
         var self = this;
         // request token
@@ -182,7 +191,7 @@ class eServiceIntegrationModule {
                 merchantId: self.options.merchantId,
                 token: tokenResponse.token,
                 specinCCWalletId: self.options.googlePayPaymentSolutionId,
-                specinCCWalletToken: encodeURIComponent(googlePayToken)
+                specinCCWalletToken: googlePayToken // no need to stringify as we expect that token is a string
             }            
 
             var requestOptions = {   
