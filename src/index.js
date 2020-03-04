@@ -77,6 +77,8 @@ class eServiceIntegrationModule {
         if (status.code == 200) {            
             if(responseBody.result == 'success'){
                 return responseBody;
+            }else if(responseBody.result == 'redirection'){
+                return responseBody;
             }else{                
                 throw new Error('Request error: '+JSON.stringify(responseBody.errors));
             }
