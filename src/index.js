@@ -61,19 +61,7 @@ class eServiceIntegrationModule {
         console.log('Received response', response);
         var status = response.status;
         var responseBody = response.body;
-        // Sample response from eService
-        // {
-        //     status: { message: 'OK', code: 200 },
-        //     body:
-        //     {
-        //         result: 'success',
-        //             resultId: '602e0ee0-4ef5-4b32-9885-1b2ca92bdb17',
-        //                 merchantId: '176689',
-        //                     additionalDetails: { },
-        //         processingTime: 5,
-        //             token: '2270009c-3218-4881-a279-e02d70c25c74'
-        //     }
-        // }
+        
         if (status.code == 200) {            
             if(responseBody.result == 'success'){
                 return responseBody;
