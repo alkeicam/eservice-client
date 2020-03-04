@@ -290,13 +290,7 @@ describe('eService integration module', () => {
                 return expect(call.args[1].data.merchantId).equal(OPTIONS.merchantId);
             })
         })
-        it('make sure that landingPageURL is used when provided', () => {
-            return theModule.payWithBLIKSingleItem(AMOUNT, BLIK_CODE, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL).then(()=>{
-                call = ss.getCall(0);
-                
-                return expect(call.args[1].data.merchantLandingPageUrl).equal(LANDING_PAGE_URL);
-            })
-        })
+        
     })
 
     describe('payWithGooglePaySingleItem', () => {
@@ -518,12 +512,7 @@ describe('eService integration module', () => {
                 return expect(call.args[1].data.merchantTxId).equal(TRANSACTION_ID);
             })
         })   
-        it('make sure that transaction is passed on', () => {
-            return theModule.generatePaymentFormURL(AMOUNT, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL).then(()=>{
-                call = ss.getCall(0);
-                return expect(call.args[1].data.merchantLandingPageUrl).equal(LANDING_PAGE_URL);
-            })
-        })       
+              
     })
 
     describe('_handleResponse', () => {        

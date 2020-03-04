@@ -88,7 +88,7 @@ class eServiceIntegrationModule {
         return response;
     }
 
-    payWithBLIKSingleItem(amount, customerBLIKCode, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL) {
+    payWithBLIKSingleItem(amount, customerBLIKCode, customerEmail, customerExternalId, itemDescription, transactionId) {
         var that = this;
         var self = this;
         // request token
@@ -107,9 +107,6 @@ class eServiceIntegrationModule {
             merchantNotificationUrl: self.options.merchantNotificationUrl,
             merchantTxId: transactionId,
             blikCode: customerBLIKCode
-        }
-        if(landingPageURL){
-            data['merchantLandingPageUrl'] = landingPageURL;
         }
         
         var requestOptions = {   
@@ -204,7 +201,7 @@ class eServiceIntegrationModule {
         })
     }
 
-    generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL){
+    generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescription, transactionId){
         var that = this;
         var self = this;
         // request token
@@ -222,9 +219,7 @@ class eServiceIntegrationModule {
             merchantNotificationUrl: self.options.merchantNotificationUrl,
             merchantTxId: transactionId
         }
-        if(landingPageURL){
-            data['merchantLandingPageUrl'] = landingPageURL;
-        }
+
 
         var requestOptions = {       
             data: data,

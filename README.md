@@ -72,10 +72,9 @@ var customerExternalId = 'myCRMId1';
 var amount = '1.00';
 var paymentDescription = 'Your product';
 var transactionId = 'your internal transaction id - will be used in status async notification';
-var landingPageURL = 'https//your.landing.page' // used when additional 3DS verification is required
 
 
-eServiceModule.payWithBLIKSingleItem(amount, BLIKCode, customerEmail, customerExternalId, paymentDescription, transactionId, landingPageURL).then(response=>{
+eServiceModule.payWithBLIKSingleItem(amount, BLIKCode, customerEmail, customerExternalId, paymentDescription, transactionId).then(response=>{
   // here one can check on the response if the payment was a success 
 	console.log('There was a valid response', response);
 }).catch(error=>{
@@ -128,9 +127,9 @@ var customerExternalId = 'myCRMId1';
 var amount = '1.00';
 var paymentDescription = 'Your product';
 var transactionId = 'your internal transaction id - will be used in status async notification';
-var landingPageURL = 'https//your.landing.page' // used when additional 3DS verification is required
 
-generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL).then(payByLinkURL=>{
+
+generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescription, transactionId).then(payByLinkURL=>{
     // here you have a link that you may use in POST form
 })
 ```
