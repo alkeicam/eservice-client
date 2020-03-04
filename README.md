@@ -190,4 +190,4 @@ generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescriptio
 ```
 
 ## Changelog
-- **v1.0.16** - BLIK, GooglePay and PayByLink integration
+- **v1.0.18** - BLIK, GooglePay and PayByLink integration
