@@ -22,7 +22,7 @@
     "pay by link"
   ],
   "author": "Maciej Grula",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/alkeicam/eservice-client/issues"
   },
