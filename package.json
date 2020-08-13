@@ -1,6 +1,6 @@
 {
   "name": "eservice-pl",
-  "version": "1.0.21",
+  "version": "1.0.22",
   "description": "eService PL client",
   "main": "./src/index.js",
   "scripts": {
