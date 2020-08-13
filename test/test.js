@@ -443,6 +443,165 @@ describe('eService integration module', () => {
         })    
     })
 
+    describe('payWithApplePaySingleItem', () => {
+        let AMOUNT = 10;
+        let APPLE_PAY_TOKEN = JSON.stringify({
+            "paymentData": {
+              "version": "EC_v1",
+              "data": "1gbgeAeUODHcOsNuUqxURZhACqjhSMBcVQwZVlgX56F7y/yiWAPa/jSv9nFuShelPbRFOjTeE+lGu9iZ/v8Bf78+4ee/GgXH5UJ6a6k+NGkhqXjOm4nIYnV7Nwz74w4vdTciBk8epeqzCvSb6Y2yNH22Z+WuxvqOTV3iVN7JqbMxfypEpiQQEnqgtqwBtrfd3K4xdFL0gq71wJDM21Gbq0bRWjprNIF/Vy8D6BJ7U8bIl2ydUX0h2hsILG4Np6HrRCcnxQtqYOK1wniGQZh8/U0lk8FLIzOkjLwkeNYyneKEfyC7BH4dbL60/P4IMO7/SKwHbiaINx9829A1h9edDJdbc2aE6kyZOuc6nLpvfuWFaoNlxp++ygYTnoVBeAdPwVK+dbROlL6tF5kUqr1o09QElpShOvHW8iVONKR9bg==",
+              "signature": "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",
+              "header": {
+                "ephemeralPublicKey": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoTSeQT84yCvNXye7jxxzgYklwMQU8HqTvdPM/YfDebtrs8jWpEzdjaIGQ9hze+EebzhD39Fe3Y/klxxqkttctA==",
+                "publicKeyHash": "OO+vh06ZMNrZqhyUvXvsAWv/3HrIm5Ya6xkwUXmol2o=",
+                "transactionId": "0415963a4a66ec63ffd29027594337802856d020f98ba6d00e5c46b7657ce813"
+              }
+            },
+            "paymentMethod": {
+              "displayName": "Visa 6041",
+              "network": "Visa",
+              "type": "debit"
+            },
+            "transactionIdentifier": "0415963A4A66EC63FFD29027594337802856D020F98BA6D00E5C46B7657CE813"
+          });
+        let EMAIL = 'some@email.com';
+        let C_EXT_ID = '#excid';
+        let DESCRIPTION = 'some description';
+        let TRANSACTION_ID = '#tid';
+        let LANDING_PAGE_URL = 'https://some.landing.page?with=params';
+        let RESPONSE_TOKEN = {
+            "result": "success",
+            "resultId": "3b33ad50-f515-483b-ad7c-9ebbacdaeba5",
+            "merchantId": "176689",
+            "additionalDetails": {},
+            "processingTime": 7,
+            "token": "b4940f30-563a-4242-a2a9-02aa3ecb2840"
+        }
+        let RESPONSE_PAYMENTS = {
+            amount: '1500',
+            resultId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+            merchantLandingPageUrl: null,
+            acquirerTxId: null,
+            txId: '11837815',
+            language: null,
+            paymentSolutionDetails: null,
+            additionalDetails: {},
+            acquirerAmount: null,
+            processingTime: 5910,
+            result: 'success',
+            merchantId: '176689',
+            brandId: '1766890000',
+            freeText: null,
+            merchantTxId: '-M1QCzUruoppxOqMn0Ac',
+            customerId: 'N1UKmyXZdApuNEbjcU94',
+            merchantLandingPageRedirectMethod: null,
+            acquirerCurrency: null,
+            action: 'PURCHASE',
+            paymentSolutionId: '2222',
+            currency: 'PLN',
+            pan: 'N/A',
+            errors: null,
+            status: 'SET_FOR_CAPTURE'           
+        }
+        let RESPONSE = {
+            status: { message: 'OK', code: 200 },
+            body: {
+                orderId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+                amount: '1500',
+                resultId: 'cd0024dc-184c-41df-acec-81e42ebc0d6a',
+                merchantLandingPageUrl: null,
+                acquirerTxId: null,
+                txId: '11837815',
+                language: null,
+                paymentSolutionDetails: null,
+                additionalDetails: {},
+                acquirerAmount: null,
+                processingTime: 5910,
+                result: 'success',
+                merchantId: '176689',
+                brandId: '1766890000',
+                freeText: null,
+                merchantTxId: '-M1QCzUruoppxOqMn0Ac',
+                customerId: 'N1UKmyXZdApuNEbjcU94',
+                merchantLandingPageRedirectMethod: null,
+                acquirerCurrency: null,
+                action: 'PURCHASE',
+                paymentSolutionId: '2222',
+                currency: 'PLN',
+                pan: 'N/A',
+                errors: null,
+                status: 'SET_FOR_CAPTURE'                 
+            }
+        }
+        let OPTIONS = {
+            merchantId: '449900'
+        }
+        beforeEach(() => {            
+            theModule.configure(OPTIONS);
+            ss = sinon.stub(theModule, '_invokeWithPost')
+            ss.onCall(0).resolves({});
+            ss.onCall(1).resolves({});
+
+            hr = sinon.stub(theModule, '_handleResponse');
+            hr.onCall(0).returns(RESPONSE_TOKEN);
+            hr.onCall(1).returns(RESPONSE_PAYMENTS);
+
+            s3 = sinon.stub(theModule, '_generateResponse');
+            s3.onCall(0).returns(RESPONSE);
+            s3.onCall(1).returns(RESPONSE);
+        });
+        afterEach(() => {
+            ss.restore();
+            hr.restore();
+
+            s3.restore();
+        });
+
+        it('should resolve on success', () => {
+            return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).should.be.fulfilled;            
+        })
+        it('make sure that apple token is passed on and is encoded', () => {
+            return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(1);
+                var modifiedToken = {
+                    token: JSON.parse(APPLE_PAY_TOKEN)
+                }              
+                
+                return expect(call.args[1].data.specinCCWalletToken).equal(JSON.stringify(modifiedToken));
+            })
+        })        
+        it('make sure that eservice token value is passed on', () => {
+            return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(1);                  
+                return expect(call.args[1].data.token).equal(RESPONSE_TOKEN.token);
+            })
+        })
+        
+        it('make sure that merchantId is passed on', () => {
+            return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(0);
+                return expect(call.args[1].data.merchantId).equal(OPTIONS.merchantId);
+            })
+        })
+        it('make sure that amount is passed on', () => {
+            return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(0);
+                return expect(call.args[1].data.amount).equal(AMOUNT);
+            })
+        })
+        it('make sure that transaction is passed', () => {
+            return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(0);
+                return expect(call.args[1].data.merchantTxId).equal(TRANSACTION_ID);
+            })
+        })        
+        it('make sure that proper wallet type is passed', () => {
+            return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
+                call = ss.getCall(1);
+                return expect(call.args[1].data.specinCCWalletId).equal(504);
+            })
+        })                
+    })
+
     describe('payWithPaymentForm', () => {
         let AMOUNT = 10;
         

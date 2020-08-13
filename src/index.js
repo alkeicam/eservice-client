@@ -17,6 +17,7 @@ class eServiceIntegrationModule {
             country: 'PL',
             blikPaymentSolutionId: 2222,
             googlePayPaymentSolutionId: 502,
+            applePayPaymentSolutionId: 504,
             merchantNotificationUrl: ''
         }
     }
@@ -137,6 +138,77 @@ class eServiceIntegrationModule {
             return self._generateResponse(paymentsResponse);
         })
     }
+
+    /**
+     * Process Apple Pay payment
+     * @param {*} amount amount in full units (not cents)
+     * @param {*} applePayToken String representation of Apple Pay token
+     * @param {*} customerEmail Email of the customer
+     * @param {*} customerExternalId Id of the customer
+     * @param {*} itemDescription Transaction description
+     * @param {*} transactionId Transaction id 
+     * @returns Promise that resolves with operation result
+     */
+    payWithApplePaySingleItem(amount, applePayToken, customerEmail, customerExternalId, itemDescription, transactionId){
+        var that = this;
+        var self = this;
+        // request token
+
+        var data = {
+            action: 'PURCHASE',
+            merchantId: self.options.merchantId,
+            password: self.options.password,
+            timestamp: new Date().getTime(),
+            allowOriginUrl: self.options.allowOriginUrl,
+            channel: self.options.channel,
+            amount: amount,
+            currency: self.options.currency,
+            country: self.options.country,
+            paymentSolutionId: self.options.applePayPaymentSolutionId,
+            merchantNotificationUrl: self.options.merchantNotificationUrl,
+            merchantTxId: transactionId
+        }
+
+        var requestOptions = {        
+            data: data,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" }             
+        }
+
+        return that._invokeWithPost(that.options.tokenEndpoint, requestOptions)
+        .then(response=>{            
+            return this._handleResponse(response);
+        }).then(tokenResponse=>{
+            // now as we have token we may request payment
+            // but as per eservice specification, Apple Pay token string must be 
+            // enhanced with token:{ ... } section
+            // that is why we parse the string to json, we add the section and then 
+            // once again we turn it into string
+            var applePayForEService = {
+                token: JSON.parse(applePayToken)
+            }
+            console.log('EService aligned apple pay token:', applePayForEService);
+            var applePayForEServiceString = JSON.stringify(applePayForEService)
+            
+            var data = {
+                merchantId: self.options.merchantId,
+                token: tokenResponse.token,
+                specinCCWalletId: self.options.applePayPaymentSolutionId,
+                specinCCWalletToken: applePayForEServiceString // no need to stringify as we expect that token is a string
+            }            
+
+            var requestOptions = {   
+                data: data,
+                headers: { "Content-Type": "application/x-www-form-urlencoded" }                      
+            }
+            return that._invokeWithPost(that.options.paymentsEndpoint, requestOptions);
+        }).then(paymentsResponse=>{
+            this._handleResponse(paymentsResponse);
+            return paymentsResponse;
+        }).then(paymentsResponse=>{
+            return self._generateResponse(paymentsResponse);
+        })        
+    }
+
     /**
      * 
      * @param {*} amount 
