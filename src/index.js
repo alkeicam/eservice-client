@@ -153,7 +153,7 @@ class eServiceIntegrationModule {
         var that = this;
         var self = this;
         // request token
-
+        console.log('Going to pay with apple pay', amount, applePayToken)
         var data = {
             action: 'PURCHASE',
             merchantId: self.options.merchantId,
