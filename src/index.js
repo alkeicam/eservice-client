@@ -184,7 +184,9 @@ class eServiceIntegrationModule {
             // that is why we parse the string to json, we add the section and then 
             // once again we turn it into string
             var applePayForEService = {
-                token: JSON.parse(applePayToken)
+                token: {
+                    paymentData: JSON.parse(applePayToken)
+                }
             }
             console.log('EService aligned apple pay token:', applePayForEService);
             var applePayForEServiceString = JSON.stringify(applePayForEService)

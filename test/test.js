@@ -563,7 +563,10 @@ describe('eService integration module', () => {
             return theModule.payWithApplePaySingleItem(AMOUNT, APPLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID).then(()=>{
                 call = ss.getCall(1);
                 var modifiedToken = {
-                    token: JSON.parse(APPLE_PAY_TOKEN)
+                    token: {
+                        paymentData: JSON.parse(APPLE_PAY_TOKEN)
+                    }
+                    
                 }              
                 
                 return expect(call.args[1].data.specinCCWalletToken).equal(JSON.stringify(modifiedToken));
