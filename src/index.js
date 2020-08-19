@@ -142,7 +142,7 @@ class eServiceIntegrationModule {
     /**
      * Process Apple Pay payment
      * @param {*} amount amount in full units (not cents)
-     * @param {*} applePayToken String representation of Apple Pay token
+     * @param {*} applePayToken String representation of Apple Pay token - important this must be a full apple token received for session with paymentMethods, paymentData etc sections
      * @param {*} customerEmail Email of the customer
      * @param {*} customerExternalId Id of the customer
      * @param {*} itemDescription Transaction description
@@ -154,6 +154,12 @@ class eServiceIntegrationModule {
         var self = this;
         // request token
         console.log('Going to pay with apple pay', amount, applePayToken)
+
+        // validate that we received full apple pay token
+        var applePayTokenObject = JSON.parse(applePayToken);
+        if(!applePayTokenObject.paymentData || !applePayTokenObject.paymentMethod || !applePayTokenObject.transactionIdentifier)
+            return Promise.reject('Invalid Apple Pay Token provided. Make sure that paymentData, paymentMethod, transactionIdentifier are provided');
+
         var data = {
             action: 'PURCHASE',
             merchantId: self.options.merchantId,
@@ -179,23 +185,13 @@ class eServiceIntegrationModule {
             return this._handleResponse(response);
         }).then(tokenResponse=>{
             // now as we have token we may request payment
-            // but as per eservice specification, Apple Pay token string must be 
-            // enhanced with token:{ ... } section
-            // that is why we parse the string to json, we add the section and then 
-            // once again we turn it into string
-            var applePayForEService = {
-                token: {
-                    paymentData: JSON.parse(applePayToken)
-                }
-            }
-            console.log('EService aligned apple pay token:', applePayForEService);
-            var applePayForEServiceString = JSON.stringify(applePayForEService)
+            
             
             var data = {
                 merchantId: self.options.merchantId,
                 token: tokenResponse.token,
                 specinCCWalletId: self.options.applePayPaymentSolutionId,
-                specinCCWalletToken: applePayForEServiceString // no need to stringify as we expect that token is a string
+                specinCCWalletToken: applePayToken // no need to stringify as we expect that token is a string
             }            
 
             var requestOptions = {   
