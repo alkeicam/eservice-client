@@ -142,7 +142,7 @@ class eServiceIntegrationModule {
     /**
      * Process Apple Pay payment
      * @param {*} amount amount in full units (not cents)
-     * @param {*} applePayToken String representation of Apple Pay token - important this must be a full apple token received for session with paymentMethods, paymentData etc sections
+     * @param {*} applePayToken String representation of Apple Pay token - important this must be a full apple token received for session with token.paymentMethods, token.paymentData etc sections
      * @param {*} customerEmail Email of the customer
      * @param {*} customerExternalId Id of the customer
      * @param {*} itemDescription Transaction description
@@ -157,7 +157,7 @@ class eServiceIntegrationModule {
 
         // validate that we received full apple pay token
         var applePayTokenObject = JSON.parse(applePayToken);
-        if(!applePayTokenObject.paymentData || !applePayTokenObject.paymentMethod || !applePayTokenObject.transactionIdentifier)
+        if(!applePayTokenObject.token.paymentData || !applePayTokenObject.token.paymentMethod || !applePayTokenObject.token.transactionIdentifier)
             return Promise.reject('Invalid Apple Pay Token provided. Make sure that paymentData, paymentMethod, transactionIdentifier are provided');
 
         var data = {

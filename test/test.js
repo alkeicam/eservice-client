@@ -445,7 +445,7 @@ describe('eService integration module', () => {
 
     describe('payWithApplePaySingleItem', () => {
         let AMOUNT = 10;
-        let APPLE_PAY_TOKEN = JSON.stringify({
+        let APPLE_PAY_TOKEN = JSON.stringify({"token": {
             "paymentData": {
               "version": "EC_v1",
               "data": "1gbgeAeUODHcOsNuUqxURZhACqjhSMBcVQwZVlgX56F7y/yiWAPa/jSv9nFuShelPbRFOjTeE+lGu9iZ/v8Bf78+4ee/GgXH5UJ6a6k+NGkhqXjOm4nIYnV7Nwz74w4vdTciBk8epeqzCvSb6Y2yNH22Z+WuxvqOTV3iVN7JqbMxfypEpiQQEnqgtqwBtrfd3K4xdFL0gq71wJDM21Gbq0bRWjprNIF/Vy8D6BJ7U8bIl2ydUX0h2hsILG4Np6HrRCcnxQtqYOK1wniGQZh8/U0lk8FLIzOkjLwkeNYyneKEfyC7BH4dbL60/P4IMO7/SKwHbiaINx9829A1h9edDJdbc2aE6kyZOuc6nLpvfuWFaoNlxp++ygYTnoVBeAdPwVK+dbROlL6tF5kUqr1o09QElpShOvHW8iVONKR9bg==",
@@ -462,16 +462,16 @@ describe('eService integration module', () => {
               "type": "debit"
             },
             "transactionIdentifier": "0415963A4A66EC63FFD29027594337802856D020F98BA6D00E5C46B7657CE813"
-          });
-        let APPLE_PAY_TOKEN_INVALID_1 = JSON.stringify({            
+          }});
+        let APPLE_PAY_TOKEN_INVALID_1 = JSON.stringify({"token": {            
             "paymentMethod": {
               "displayName": "Visa 6041",
               "network": "Visa",
               "type": "debit"
             },
             "transactionIdentifier": "0415963A4A66EC63FFD29027594337802856D020F98BA6D00E5C46B7657CE813"
-          });
-        let APPLE_PAY_TOKEN_INVALID_2 = JSON.stringify({
+          }});
+        let APPLE_PAY_TOKEN_INVALID_2 = JSON.stringify({"token": {
             "paymentData": {
               "version": "EC_v1",
               "data": "1gbgeAeUODHcOsNuUqxURZhACqjhSMBcVQwZVlgX56F7y/yiWAPa/jSv9nFuShelPbRFOjTeE+lGu9iZ/v8Bf78+4ee/GgXH5UJ6a6k+NGkhqXjOm4nIYnV7Nwz74w4vdTciBk8epeqzCvSb6Y2yNH22Z+WuxvqOTV3iVN7JqbMxfypEpiQQEnqgtqwBtrfd3K4xdFL0gq71wJDM21Gbq0bRWjprNIF/Vy8D6BJ7U8bIl2ydUX0h2hsILG4Np6HrRCcnxQtqYOK1wniGQZh8/U0lk8FLIzOkjLwkeNYyneKEfyC7BH4dbL60/P4IMO7/SKwHbiaINx9829A1h9edDJdbc2aE6kyZOuc6nLpvfuWFaoNlxp++ygYTnoVBeAdPwVK+dbROlL6tF5kUqr1o09QElpShOvHW8iVONKR9bg==",
@@ -483,8 +483,8 @@ describe('eService integration module', () => {
               }
             },            
             "transactionIdentifier": "0415963A4A66EC63FFD29027594337802856D020F98BA6D00E5C46B7657CE813"
-          });
-          let APPLE_PAY_TOKEN_INVALID_3 = JSON.stringify({
+          }});
+          let APPLE_PAY_TOKEN_INVALID_3 = JSON.stringify({"token": {
             "paymentData": {
               "version": "EC_v1",
               "data": "1gbgeAeUODHcOsNuUqxURZhACqjhSMBcVQwZVlgX56F7y/yiWAPa/jSv9nFuShelPbRFOjTeE+lGu9iZ/v8Bf78+4ee/GgXH5UJ6a6k+NGkhqXjOm4nIYnV7Nwz74w4vdTciBk8epeqzCvSb6Y2yNH22Z+WuxvqOTV3iVN7JqbMxfypEpiQQEnqgtqwBtrfd3K4xdFL0gq71wJDM21Gbq0bRWjprNIF/Vy8D6BJ7U8bIl2ydUX0h2hsILG4Np6HrRCcnxQtqYOK1wniGQZh8/U0lk8FLIzOkjLwkeNYyneKEfyC7BH4dbL60/P4IMO7/SKwHbiaINx9829A1h9edDJdbc2aE6kyZOuc6nLpvfuWFaoNlxp++ygYTnoVBeAdPwVK+dbROlL6tF5kUqr1o09QElpShOvHW8iVONKR9bg==",
@@ -500,7 +500,7 @@ describe('eService integration module', () => {
               "network": "Visa",
               "type": "debit"
             }
-          });
+          }});
         let EMAIL = 'some@email.com';
         let C_EXT_ID = '#excid';
         let DESCRIPTION = 'some description';
