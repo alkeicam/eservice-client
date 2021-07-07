@@ -216,8 +216,9 @@ class eServiceIntegrationModule {
      * @param {*} itemDescription 
      * @param {*} transactionId 
      * @param {*} landingPageURL 
+     * @param {*} device device specification ( {customerBrowser: any, userAgent: any, userDevice:any}) 
      */
-    payWithGooglePaySingleItem(amount, googlePayToken, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL) {
+    payWithGooglePaySingleItem(amount, googlePayToken, customerEmail, customerExternalId, itemDescription, transactionId, landingPageURL, device) {
         var that = this;
         var self = this;
         // request token
@@ -239,6 +240,15 @@ class eServiceIntegrationModule {
 
         if(landingPageURL){
             data['merchantLandingPageUrl'] = landingPageURL;
+        }
+
+        if(device){
+            if(device.userDevice)
+                data['userDevice'] = device.userDevice;
+            if(device.userAgent)
+                data['userAgent'] = device.userAgent;
+            if(device.customerBrowser)
+                data['customerBrowser'] = device.customerBrowser;
         }
 
         var requestOptions = {        
