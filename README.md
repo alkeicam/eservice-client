@@ -243,4 +243,5 @@ generatePaymentFormURL(amount, customerEmail, customerExternalId, itemDescriptio
 ```
 
 ## Changelog
+- **v1.0.26** - user device info for Google Pay when requesting session token
 - **v1.0.18** - BLIK, GooglePay and PayByLink integration
