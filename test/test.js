@@ -369,6 +369,11 @@ describe('eService integration module', () => {
                 status: 'SET_FOR_CAPTURE'                 
             }
         }
+        let DEVICE = {
+            customerBrowser: {"browserAcceptHeader":"application/json","browserJavaEnabled":false,"browserIP":"122.97.16.122","browserLanguage":"zh-CN","browserColorDepth":"24","browserScreenHeight":"1080","browserScreenWidth":"1920","browserTZ":"-480","challengeWindowSize":"05","browserJavascriptEnabled":true},
+            userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.90 Safari/537.36',
+            userDevice: 'MOBILE'
+        }
         let OPTIONS = {
             merchantId: '449900'
         }
@@ -440,7 +445,28 @@ describe('eService integration module', () => {
                 
                 return expect(call.args[1].data.merchantLandingPageUrl).equal(LANDING_PAGE_URL);
             })
-        })    
+        })   
+        it('make sure that userDevice is used when provided', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL, DEVICE).then(()=>{
+                call = ss.getCall(0);
+                
+                return expect(call.args[1].data.userDevice).equal(DEVICE.userDevice);
+            })
+        })
+        it('make sure that userAgent is used when provided', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL, DEVICE).then(()=>{
+                call = ss.getCall(0);
+                
+                return expect(call.args[1].data.userAgent).equal(DEVICE.userAgent);
+            })
+        }) 
+        it('make sure that customerBrowser is used when provided', () => {
+            return theModule.payWithGooglePaySingleItem(AMOUNT, GOOGLE_PAY_TOKEN, EMAIL, C_EXT_ID, DESCRIPTION, TRANSACTION_ID, LANDING_PAGE_URL, DEVICE).then(()=>{
+                call = ss.getCall(0);
+                
+                return expect(call.args[1].data.customerBrowser).equal(DEVICE.customerBrowser);
+            })
+        }) 
     })
 
     describe('payWithApplePaySingleItem', () => {

@@ -242,14 +242,16 @@ class eServiceIntegrationModule {
             data['merchantLandingPageUrl'] = landingPageURL;
         }
 
-        if(device){
-            if(device.userDevice)
-                data['userDevice'] = device.userDevice;
-            if(device.userAgent)
-                data['userAgent'] = device.userAgent;
-            if(device.customerBrowser)
-                data['customerBrowser'] = device.customerBrowser;
+        if(device&&device.userDevice){            
+            data['userDevice'] = device.userDevice;            
         }
+        if(device&&device.userAgent){            
+            data['userAgent'] = device.userAgent;            
+        }
+        if(device&&device.customerBrowser){            
+            data['customerBrowser'] = device.customerBrowser;            
+        }
+        
 
         var requestOptions = {        
             data: data,
